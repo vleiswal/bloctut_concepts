@@ -1,8 +1,7 @@
-import 'package:bloc_concepts/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'cubit/counter_cubit.dart';
 
 void main() {
   runApp(MyApp());
@@ -55,6 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Increment'),
+                duration: Duration(milliseconds: 1000),
+              ),
+            );
+          } else if (!state.wasIncremented) {
+            // do decrement SnackBar
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Decrement'),
                 duration: Duration(milliseconds: 1000),
               ),
             );
