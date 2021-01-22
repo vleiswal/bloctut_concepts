@@ -48,52 +48,65 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            SizedBox(height: 20),
-            BlocBuilder<CounterCubit, CounterState>(
-              builder: (context, state) {
-                var message = '';
-                if (state.counterValue == 0) {
-                  message = 'Zero ';
-                } else if (state.counterValue == 5) {
-                  message = 'Ahhhh ';
-                } else if (state.counterValue < 0) {
-                  message = 'Minus ';
-                }
+      body: BlocListener<CounterCubit, CounterState>(
+        listener: (context, state) {
+          if (state.wasIncremented) {
+            // do increment SnackBar
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Increment'),
+                duration: Duration(milliseconds: 1000),
+              ),
+            );
+          }
+        },
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'You have pushed the button this many times:',
+              ),
+              SizedBox(height: 20),
+              BlocBuilder<CounterCubit, CounterState>(
+                builder: (context, state) {
+                  var message = '';
+                  if (state.counterValue == 0) {
+                    message = 'Zero ';
+                  } else if (state.counterValue == 5) {
+                    message = 'Ahhhh ';
+                  } else if (state.counterValue < 0) {
+                    message = 'Minus ';
+                  }
 
-                return Text(
-                  message + state.counterValue.toString(),
-                  style: Theme.of(context).textTheme.headline4,
-                );
-              },
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).decrement();
-                  },
-                  tooltip: 'Decrement',
-                  child: Icon(Icons.remove),
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    BlocProvider.of<CounterCubit>(context).increment();
-                  },
-                  tooltip: 'Increment',
-                  child: Icon(Icons.add),
-                ),
-              ],
-            ),
-          ],
+                  return Text(
+                    message + state.counterValue.toString(),
+                    style: Theme.of(context).textTheme.headline4,
+                  );
+                },
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  FloatingActionButton(
+                    onPressed: () {
+                      BlocProvider.of<CounterCubit>(context).decrement();
+                    },
+                    tooltip: 'Decrement',
+                    child: Icon(Icons.remove),
+                  ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      BlocProvider.of<CounterCubit>(context).increment();
+                    },
+                    tooltip: 'Increment',
+                    child: Icon(Icons.add),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
